@@ -140,6 +140,7 @@
         _playerModel.fatherView       = self.playerFatherView;
 //        _playerModel.resolutionDic = @{@"高清" : self.videoURL.absoluteString,
 //                                       @"标清" : self.videoURL.absoluteString};
+        _playerModel.liveMode = NO;
     }
     return _playerModel;
 }

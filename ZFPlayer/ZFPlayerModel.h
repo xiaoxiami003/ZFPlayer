@@ -56,4 +56,9 @@
  */
 @property (nonatomic, assign) NSInteger    fatherViewTag;
 
+///added by XiaoXiaMi
+
+/** 是否是直播模式，默认为NO */
+@property (nonatomic, assign, getter=isLiveMode) BOOL liveMode;
+
 @end

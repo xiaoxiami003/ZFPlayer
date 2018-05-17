@@ -915,6 +915,17 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 
 /** 设置播放模型 */
 - (void)zf_playerModel:(ZFPlayerModel *)playerModel {
+    /**
+     *  隐藏返回按钮
+     *  直播模式：隐藏时间label、进度条
+     */
+    self.backBtn.hidden = YES;
+    self.fastTimeLabel.hidden = playerModel.isLiveMode;
+    self.totalTimeLabel.hidden = playerModel.isLiveMode;
+    self.currentTimeLabel.hidden = playerModel.isLiveMode;
+    self.videoSlider.hidden = playerModel.isLiveMode;
+    self.progressView.hidden = playerModel.isLiveMode;
+
 
     if (playerModel.title) { self.titleLabel.text = playerModel.title; }
     // 设置网络占位图片

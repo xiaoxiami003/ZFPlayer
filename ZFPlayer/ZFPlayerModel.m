@@ -25,6 +25,14 @@
 
 @implementation ZFPlayerModel
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.liveMode = NO;
+    }
+    return self;
+}
+
 - (UIImage *)placeholderImage {
     if (!_placeholderImage) {
         _placeholderImage = ZFPlayerImage(@"ZFPlayer_loading_bgView");

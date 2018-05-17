@@ -1146,9 +1146,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
             if (x > y) { // 水平移动
                 // 取消隐藏
                 self.panDirection = PanDirectionHorizontalMoved;
-                // 给sumTime初值
-                CMTime time       = self.player.currentTime;
-                self.sumTime      = time.value/time.timescale;
+                
+                /**
+                 *  对直播模式做特别处理
+                 *  禁用快进、快退手势响应
+                 */
+                if (!self.playerModel.isLiveMode) {
+                    // 给sumTime初值
+                    CMTime time       = self.player.currentTime;
+                    self.sumTime      = time.value/time.timescale;
+                }
             } else if (x < y) { // 垂直移动
                 self.panDirection = PanDirectionVerticalMoved;
                 // 开始滑动的时候,状态改为正在控制音量
@@ -1163,7 +1170,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
         case UIGestureRecognizerStateChanged: { // 正在移动
             switch (self.panDirection) {
                 case PanDirectionHorizontalMoved:{
-                    [self horizontalMoved:veloctyPoint.x]; // 水平移动的方法只要x方向的值
+                    //非直播模式才响应操作
+                    if (!self.playerModel.isLiveMode) {
+                        [self horizontalMoved:veloctyPoint.x]; // 水平移动的方法只要x方向的值
+                    }
                     break;
                 }
                 case PanDirectionVerticalMoved:{
@@ -1181,7 +1191,12 @@ typedef NS_ENUM(NSInteger, PanDirection){
             switch (self.panDirection) {
                 case PanDirectionHorizontalMoved:{
                     self.isPauseByUser = NO;
-                    [self seekToTime:self.sumTime completionHandler:nil];
+                    
+                    //非直播模式时，才执行快进、快退
+                    if (!self.playerModel.isLiveMode) {
+                        [self seekToTime:self.sumTime completionHandler:nil];
+                    }
+                    
                     // 把sumTime滞空，不然会越加越多
                     self.sumTime = 0;
                     break;
